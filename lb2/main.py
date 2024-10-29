@@ -1,4 +1,4 @@
-from list_def import modular_inverse, extended_euclidean
+from list_def import modular_inverse, extended_euclidean, solve_modular_equation
 
 def nod():
     element = int(input("Введите элемент 'a': "))
@@ -12,12 +12,17 @@ def nod():
         print(f"\nРезультат: НОД({a}, {b}) = {gcd}, коэффициенты x = {a}, y = {b}")
 
 def Obratno_A():
-    # Ввод элемента и модуля с консоли
     element = int(input("Введите элемент 'a': "))
     modulus = int(input("Введите модуль 'm': "))
     
-    # Вычисление и вывод результата
     modular_inverse(element, modulus)
+
+def SoMoEq():
+    a = int(input("Введите значение a: "))
+    b = int(input("Введите значение b: "))
+    m = int(input("Введите значение m: "))
+
+    solve_modular_equation(a, b, m)
 
 if __name__ == "__main__":
 
@@ -40,7 +45,7 @@ if __name__ == "__main__":
             Obratno_A()
 
         elif (com == "3"):
-            pass
+            SoMoEq()
 
         elif (com == "4"):
             pass

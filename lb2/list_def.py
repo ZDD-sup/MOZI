@@ -21,3 +21,19 @@ def modular_inverse(element, modulus):
     print(f"Обратный элемент для {element} по модулю {modulus} равен {inverse}")
     return inverse
 
+def solve_modular_equation(a, b, m):
+    """Решает сравнение a * x ≡ b (mod m) и находит все решения, если они существуют."""
+    gcd, x, _ = extended_euclidean(a, m)
+    
+    # Проверяем, делится ли b на gcd
+    if b % gcd != 0:
+        print("Решений нет, так как НОД(a, m) не делит b.")
+        return []
+
+    # Находим частное решение x0, приводя x к положительному значению
+    x0 = (x * (b // gcd)) % m
+    solutions = [(x0 + i * (m // gcd)) % m for i in range(gcd)]
+    
+    # Выводим решения
+    print(f"Решения для {a} * x ≡ {b} (mod {m}): {solutions}")
+    return solutions
