@@ -151,3 +151,78 @@ def frequency_analysis(cipher_text):
             frequency[char] = frequency.get(char, 0) + 1
 
     return sorted(frequency.items(), key=lambda item: item[1], reverse=True)
+
+
+def decode_affine(a, b, cipher_text, alphabet):
+    """
+    Дешифрует текст с использованием аффинного шифра.
+
+    Параметры:
+    a (int): Коэффициент для шифрования (множитель).
+    b (int): Смещение для шифрования (константа).
+    cipher_text (str): Зашифрованный текст.
+    alphabet (str): Строка, представляющая алфавит.
+
+    Возвращает:
+    str: Расшифрованный текст.
+    """
+    decrypted_text = ""
+    a_inv = modular_inverse(a, len(alphabet))
+    
+    if a_inv is None:
+        return "Обратный элемент не существует. Дешифрование невозможно."
+
+    for letter in cipher_text:
+        if letter in alphabet:
+            x = alphabet.index(letter)
+            y = (a_inv * (x - b)) % len(alphabet)
+            decrypted_text += alphabet[y]
+        else:
+            decrypted_text += letter
+
+    return decrypted_text
+
+
+def attempt_decrypt(cipher_text, alphabet, known_pairs):
+    """
+    Пытается расшифровать текст, перебирая все возможные ключи.
+    
+    Параметры:
+    cipher_text (str): Зашифрованный текст.
+    alphabet (str): Строка, представляющая алфавит.
+    known_pairs (dict): Известные пары символов для замены.
+
+    Возвращает:
+    list: Список расшифрованных текстов с соответствующими ключами.
+    """
+    results = []
+    
+    for a in range(1, len(alphabet)):
+        for b in range(len(alphabet)):
+            decrypted_text = decode_affine(a, b, cipher_text, alphabet)
+            results.append((decrypted_text, (a, b)))
+
+            for original, ciphered in known_pairs.items():
+                if ciphered in decrypted_text:
+                    print(f"Найдено соответствие: {ciphered} -> {original} с ключом ({a}, {b})")
+                    break
+            
+            user_input = input("Хотите продолжить? (y/n): ").strip().lower()
+            if user_input == 'n':
+                print("Подбор ключей остановлен пользователем.")
+                return results
+
+    return results
+
+
+def save_results_to_file(results, filename):
+    """
+    Сохраняет расшифрованные тексты и ключи в текстовый файл.
+
+    Параметры:
+    results (list): Список расшифрованных текстов с ключами.
+    filename (str): Имя файла для сохранения.
+    """
+    with open(filename, 'w', encoding='utf-8') as f:
+        for decrypted_text, key in results:
+            f.write(f"Ключ: {key} - Расшифрованный текст: {decrypted_text}\n")
