@@ -1,4 +1,4 @@
-from list_def import modular_inverse, extended_euclidean, solve_modular_equation, encode
+from list_def import modular_inverse, extended_euclidean, solve_modular_equation, encode, solve_system_of_congruences, frequency_analysis
 
 def nod():
     element = int(input("Введите элемент 'a': "))
@@ -30,6 +30,32 @@ def print_encode():
     b = int(input("Укажите 'b': "))
     encode(a, b, text_inp, alphabet)
 
+def SolSysOfCon():
+    a = int(input("Введите значение a: "))
+    b = int(input("Введите значение b: "))
+    c = int(input("Введите значение c: "))
+    d = int(input("Введите значение d: "))
+    m = int(input("Введите значение m: "))
+
+    # Решаем систему сравнений
+    solutions = solve_system_of_congruences(a, b, c, d, m)
+
+    # Выводим решения
+    if solutions:
+        print(f"Решения для ({a}*x + y) mod {m} ≡ {b} и ({c}*x + y) mod {m} ≡ {d}: {solutions}")
+    else:
+        print(f"Решений нет для заданных параметров.")
+
+def text_analis():
+    cipher_text = input("Введите зашифрованный текст: ")
+    
+    frequency_result = frequency_analysis(cipher_text)
+    
+    print("\nЧастотный анализ шифротекста:")
+    for letter, count in frequency_result:
+        print(f"Буква: '{letter}' - Частота: {count}")
+
+
 
 if __name__ == "__main__":
 
@@ -40,8 +66,10 @@ if __name__ == "__main__":
         print("\n1. Нахождения НОД(a,m)" +
                 "2. Вычисление элемента, обратного к данному элементу в кольце вычетов по заданному модулю.\n" +
                 "3. Решение сравнения вида 'ax mod m ≡ b'.\n" +
-                "4. Расшифровка.\n" +
-                "5. Шифровка\n" +
+                "4. Решение системы стравнений." +
+                "5. Расчитать частоту символов в строке." +
+                "6. Расшифровка.\n" +
+                "7. Шифровка\n" +
                 "exit\n")
         
         com = str(input("Выберите действие: "))
@@ -56,7 +84,13 @@ if __name__ == "__main__":
             SoMoEq()
 
         elif (com == "4"):
-            pass
+            SolSysOfCon()
 
         elif (com == "5"):
+            text_analis()
+
+        elif (com == "6"):
+            pass
+
+        elif (com == "7"):
             print_encode()
