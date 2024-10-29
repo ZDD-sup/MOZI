@@ -1,4 +1,4 @@
-from list_def import modular_inverse, extended_euclidean, solve_modular_equation
+from list_def import modular_inverse, extended_euclidean, solve_modular_equation, encode
 
 def nod():
     element = int(input("Введите элемент 'a': "))
@@ -24,8 +24,16 @@ def SoMoEq():
 
     solve_modular_equation(a, b, m)
 
+def print_encode():
+    text_inp = str(input("Введите текстдля шифрования: "))
+    a = int(input("Укажите 'a': "))
+    b = int(input("Укажите 'b': "))
+    encode(a, b, text_inp, alphabet)
+
+
 if __name__ == "__main__":
 
+    alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя" # 0-31 позиций, 32шт
     com = ''
 
     while(com!='exit'):
@@ -51,4 +59,4 @@ if __name__ == "__main__":
             pass
 
         elif (com == "5"):
-            pass
+            print_encode()

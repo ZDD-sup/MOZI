@@ -37,3 +37,19 @@ def solve_modular_equation(a, b, m):
     # Выводим решения
     print(f"Решения для {a} * x ≡ {b} (mod {m}): {solutions}")
     return solutions
+
+
+def encode(a: int, b: int, text: str, alphabet: str) -> str:
+    new_text = ""
+    for letter in text:
+        if letter == 'Ё':
+            letter = 'Е'
+
+        if letter in alphabet:
+            x = alphabet.index(letter)
+            y = (a * x + b) % len(alphabet)
+            new_text += alphabet[y]
+        else:
+            new_text += letter
+
+    return new_text
